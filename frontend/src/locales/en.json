@@ -1,0 +1,65 @@
+{
+  "nav": {
+    "home": "Home",
+    "about": "About",
+    "skills": "Skills",
+    "projects": "Projects",
+    "contact": "Contact"
+  },
+  "hero": {
+    "tagline": "junior developer",
+    "claim": "I build clean digital products with attention to detail and user experience.",
+    "cta_primary": "View projects",
+    "cta_secondary": "Get in touch",
+    "scroll_hint": "Scroll down"
+  },
+  "about": {
+    "title": "About",
+    "subtitle": "Who's behind it",
+    "paragraph1": "I'm a junior developer focused on modern web technologies. I enjoy building things that work — from clean UIs to reliable backends. Every project is a chance to learn something new.",
+    "paragraph2": "I'm currently working on my own projects, growing my skills in React and Spring Boot, and looking for an opportunity to contribute to a real team. I'm detail-oriented, self-driven, and not afraid to ask when I don't know.",
+    "location": "Czech Republic",
+    "status": "Open to opportunities",
+    "status_label": "Status"
+  },
+  "skills": {
+    "title": "Skills",
+    "subtitle": "What I work with",
+    "categories": {
+      "frontend": "Frontend",
+      "backend": "Backend",
+      "tools": "Tools"
+    }
+  },
+  "projects": {
+    "title": "Projects",
+    "subtitle": "What I've built",
+    "github_label": "GitHub",
+    "demo_label": "Demo",
+    "status_live": "Live",
+    "status_wip": "In progress",
+    "coming_soon": "Coming soon",
+    "view_all": "View all on GitHub"
+  },
+  "contact": {
+    "title": "Contact",
+    "subtitle": "Let's connect",
+    "description": "Looking for a junior developer, or want to discuss a collaboration? Drop me a message — I'll get back to you.",
+    "name_label": "Name",
+    "name_placeholder": "Your name",
+    "email_label": "Email",
+    "email_placeholder": "your@email.com",
+    "message_label": "Message",
+    "message_placeholder": "Write me anything...",
+    "submit": "Send message",
+    "sending": "Sending...",
+    "success": "Message sent! I'll get back to you soon.",
+    "error": "Something went wrong. Please try again."
+  },
+  "footer": {
+    "made_with": "Built with",
+    "and": "and",
+    "by": "by",
+    "rights": "All rights reserved."
+  }
+}

@@ -1,0 +1,48 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  /* Globální resetování a základní styly */
+  html {
+    scroll-behavior: smooth;
+    color-scheme: dark;
+  }
+
+  body {
+    @apply bg-bg-base text-text-primary font-sans antialiased;
+  }
+
+  /* Scrollbar – tenký a diskrétní */
+  ::-webkit-scrollbar {
+    width: 4px;
+  }
+  ::-webkit-scrollbar-track {
+    @apply bg-bg-base;
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply bg-accent/40 rounded-full;
+  }
+
+  /* Selekce textu */
+  ::selection {
+    @apply bg-accent/30 text-text-primary;
+  }
+}
+
+@layer utilities {
+  /* Gradientní text */
+  .text-gradient {
+    @apply bg-gradient-primary bg-clip-text text-transparent;
+  }
+
+  /* Jemný glow pro akcentové prvky */
+  .glow-accent {
+    box-shadow: 0 0 32px rgba(99, 102, 241, 0.2);
+  }
+
+  /* Plynulý přechod pro hover stavy */
+  .transition-base {
+    @apply transition-all duration-300 ease-out;
+  }
+}

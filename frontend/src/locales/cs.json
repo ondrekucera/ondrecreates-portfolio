@@ -1,0 +1,65 @@
+{
+  "nav": {
+    "home": "Domů",
+    "about": "O mně",
+    "skills": "Dovednosti",
+    "projects": "Projekty",
+    "contact": "Kontakt"
+  },
+  "hero": {
+    "tagline": "junior developer",
+    "claim": "Tvořím čisté digitální produkty s důrazem na detail a uživatelský zážitek.",
+    "cta_primary": "Podívej se na projekty",
+    "cta_secondary": "Kontaktuj mě",
+    "scroll_hint": "Scrolluj dolů"
+  },
+  "about": {
+    "title": "O mně",
+    "subtitle": "Kdo za tím stojí",
+    "paragraph1": "Jsem junior developer se zaměřením na moderní webové technologie. Baví mě stavět věci, které fungují – od čistého UI až po spolehlivý backend. Každý projekt beru jako příležitost naučit se něco nového.",
+    "paragraph2": "Aktuálně pracuji na vlastních projektech, rozvíjím dovednosti v Reactu a Spring Bootu a hledám příležitost, kde bych mohl přispět v reálném týmu. Jsem pečlivý, samostatný a nebojím se zeptat, když to nevím.",
+    "location": "Česká republika",
+    "status": "Otevřený příležitostem",
+    "status_label": "Status"
+  },
+  "skills": {
+    "title": "Dovednosti",
+    "subtitle": "Co umím",
+    "categories": {
+      "frontend": "Frontend",
+      "backend": "Backend",
+      "tools": "Nástroje"
+    }
+  },
+  "projects": {
+    "title": "Projekty",
+    "subtitle": "Co jsem postavil",
+    "github_label": "GitHub",
+    "demo_label": "Demo",
+    "status_live": "Live",
+    "status_wip": "V přípravě",
+    "coming_soon": "Připravuji",
+    "view_all": "Zobrazit vše na GitHubu"
+  },
+  "contact": {
+    "title": "Kontakt",
+    "subtitle": "Pojďme se spojit",
+    "description": "Hledáš junior developera do týmu, nebo chceš probrat spolupráci? Napiš mi – rád odpovím.",
+    "name_label": "Jméno",
+    "name_placeholder": "Tvoje jméno",
+    "email_label": "E-mail",
+    "email_placeholder": "tvuj@email.cz",
+    "message_label": "Zpráva",
+    "message_placeholder": "Napiš mi cokoliv...",
+    "submit": "Odeslat zprávu",
+    "sending": "Odesílám...",
+    "success": "Zpráva odeslána! Ozvu se co nejdřív.",
+    "error": "Něco se pokazilo. Zkus to prosím znovu."
+  },
+  "footer": {
+    "made_with": "Vytvořeno s",
+    "and": "a",
+    "by": "od",
+    "rights": "Všechna práva vyhrazena."
+  }
+}
