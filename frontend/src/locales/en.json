@@ -7,8 +7,9 @@
     "contact": "Contact"
   },
   "hero": {
-    "tagline": "junior developer",
-    "claim": "I build clean digital products with attention to detail and user experience.",
+    "tagline": "fullstack developer",
+    "role": "Fullstack Developer",
+    "claim": "I love learning new things and constantly improving.",
     "cta_primary": "View projects",
     "cta_secondary": "Get in touch",
     "scroll_hint": "Scroll down"

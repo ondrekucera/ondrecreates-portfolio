@@ -5,7 +5,7 @@ const variants = {
   primary:
     'bg-gradient-primary text-white hover:opacity-90 hover:shadow-lg hover:shadow-accent/25 active:scale-95',
   ghost:
-    'border border-border text-text-secondary hover:border-accent/60 hover:text-text-primary active:scale-95',
+    'border border-border text-text-secondary hover:border-accent-pink/40 hover:text-text-primary hover:bg-accent-pink/[0.06] hover:shadow-lg hover:shadow-accent-pink/10 active:scale-95',
   outline:
     'border border-accent/50 text-accent hover:bg-accent/10 active:scale-95',
 }

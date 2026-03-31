@@ -15,12 +15,13 @@ export default {
           subtle: 'rgba(255,255,255,0.06)',
           DEFAULT: 'rgba(255,255,255,0.10)',
         },
-        // Akcentová paleta (indigo → fialová)
+        // Akcentová paleta (dark purple → neon pink)
         accent: {
-          DEFAULT: '#6366f1',
-          violet: '#8b5cf6',
-          purple: '#a855f7',
-          glow: 'rgba(99,102,241,0.15)',
+          DEFAULT: '#560BAD',
+          violet: '#5110D3',
+          purple: '#7B2FBE',
+          pink: '#F72585',
+          glow: 'rgba(86,11,173,0.15)',
         },
         // Textová hierarchie
         text: {
@@ -32,10 +33,11 @@ export default {
       fontFamily: {
         sans: ['Inter', 'system-ui', 'sans-serif'],
         mono: ['"JetBrains Mono"', 'monospace'],
-        signature: ['Caveat', 'cursive'],
+        signature: ['Quetine', 'cursive'],             // Quetine jako hlavní signature font
+        autograph: ['"Dancing Script"', 'cursive'], // fallback / alternativní handwriting
       },
       backgroundImage: {
-        'gradient-primary': 'linear-gradient(135deg, #6366f1 0%, #a855f7 100%)',
+        'gradient-primary': 'linear-gradient(135deg, #560BAD 0%, #5110D3 100%)',
         'gradient-hero': 'radial-gradient(ellipse 80% 50% at 50% -20%, rgba(99,102,241,0.18) 0%, transparent 70%)',
       },
       animation: {

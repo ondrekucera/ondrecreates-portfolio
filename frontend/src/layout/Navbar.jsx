@@ -40,13 +40,15 @@ function Navbar() {
       )}
     >
       <nav className="max-w-6xl mx-auto px-4 sm:px-8 h-16 flex items-center justify-between">
-        {/* Logo / Brand */}
+        {/* Logo / Brand – neon glow + terminálový kurzor */}
         <button
           onClick={() => handleNavClick(SECTION_IDS.hero)}
-          className="font-mono text-sm font-medium text-text-primary hover:text-accent transition-colors duration-200"
+          className="navbar-brand-glow font-mono text-sm font-medium text-text-primary hover:text-accent"
         >
           {SITE.brand}
           <span className="text-accent">.</span>
+          {/* Blikající _ kurzor – terminal / command line detail */}
+          <span className="navbar-cursor text-accent/50 ml-px">_</span>
         </button>
 
         {/* Desktop navigace */}

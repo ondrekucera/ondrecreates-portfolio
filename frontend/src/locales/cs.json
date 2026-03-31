@@ -7,8 +7,9 @@
     "contact": "Kontakt"
   },
   "hero": {
-    "tagline": "junior developer",
-    "claim": "Tvořím čisté digitální produkty s důrazem na detail a uživatelský zážitek.",
+    "tagline": "fullstack developer",
+    "role": "Fullstack Developer",
+    "claim": "Rád se učím nové věci a neustále se posouvám.",
     "cta_primary": "Podívej se na projekty",
     "cta_secondary": "Kontaktuj mě",
     "scroll_hint": "Scrolluj dolů"
