@@ -1,5 +1,5 @@
 import { useRef, useLayoutEffect, useEffect } from 'react'
-import gsap from 'gsap'
+import gsap from '../lib/gsap'
 import { useLanguage } from '../hooks/useLanguage'
 import { scrollToSection } from '../utils/helpers'
 import { SITE, SECTION_IDS } from '../lib/constants'
@@ -28,11 +28,15 @@ function Hero({ animate }) {
   useLayoutEffect(() => {
     // Skryjeme elementy okamžitě – bez ohledu na animate prop
     const ctx = gsap.context(() => {
-      gsap.set(letterRefs.current, { yPercent: 110, opacity: 0 })
-      gsap.set([subtitleRef.current, ctaRef.current], { y: 24, opacity: 0 })
-      // Signature: schovaná clip-path
+      // Písmena: výchozí stav – pod základní linkou, neviditelná
+      gsap.set(letterRefs.current, { yPercent: 105, opacity: 0 })
+      gsap.set([subtitleRef.current, ctaRef.current], { y: 20, opacity: 0 })
+      // Signature: schovaná clip-path + neviditelná (double-hidden pro čistý start)
       if (sigWrapRef.current) {
-        gsap.set(sigWrapRef.current, { clipPath: 'inset(0 102% 0 0 round 1px)' })
+        gsap.set(sigWrapRef.current, {
+          clipPath: 'inset(0 102% 0 0 round 1px)',
+          opacity:  0,
+        })
       }
     }, titleRef)
 
@@ -45,28 +49,34 @@ function Hero({ animate }) {
     const ctx = gsap.context(() => {
       const tl = gsap.timeline({ defaults: { ease: 'power3.out' } })
 
-      // 1. Písmena přijedou zdola (stagger)
+      // 1. Písmena přijedou zdola – stagger pro „psací" efekt
+      //    Timing: pomalejší = prémiovější
+      //    Uprav: duration (0.8s), stagger (0.04s)
       tl.to(letterRefs.current, {
         yPercent: 0,
         opacity:  1,
-        duration: 0.7,
-        stagger:  0.045,
+        duration: 0.8,
+        stagger:  0.04,
       })
 
-      // 2. Signature reveal (clip-path zleva doprava)
+      // 2. Signature reveal – clip-path zleva doprava + fade in
+      //    Opacity: od 0 do 0.85 (ne 1, zachová jemnost podpisu)
+      //    Uprav: duration (1.5s), delay (overlap '-=0.35')
       .to(sigWrapRef.current, {
         clipPath: 'inset(0 0% 0 0 round 1px)',
-        duration: 1.4,
+        opacity:  0.85,
+        duration: 1.5,
         ease:     'power2.inOut',
-      }, '-=0.3')
+      }, '-=0.35')
 
-      // 3. Subtitle + CTA
+      // 3. Subtitle a CTA – jemný slide nahoru + fade
       .to([subtitleRef.current, ctaRef.current], {
         y:        0,
         opacity:  1,
-        duration: 0.6,
-        stagger:  0.12,
-      }, '-=0.8')
+        duration: 0.65,
+        stagger:  0.14,
+        ease:     'power2.out',
+      }, '-=0.9')
     }, titleRef)
 
     return () => ctx.revert()
@@ -177,7 +187,7 @@ function Hero({ animate }) {
         <div
           ref={sigWrapRef}
           className="absolute top-[64%] left-1/2 z-20 pointer-events-none select-none"
-          style={{ transform: 'translateX(-50%) rotate(-2deg)', opacity: 0.85 }}
+          style={{ transform: 'translateX(-50%) rotate(-2deg)' }}
         >
           <Signature svgRef={sigSvgRef} />
         </div>

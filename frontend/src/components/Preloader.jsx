@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react'
-import gsap from 'gsap'
+import gsap from '../lib/gsap'
 
 // ─── Timing – uprav zde ───────────────────────────────────────────────────────
 const TYPING_DURATION = 1.0   // s – celková délka psaní textu

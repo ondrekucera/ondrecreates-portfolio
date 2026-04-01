@@ -1,25 +1,19 @@
 import { useLanguage } from '../hooks/useLanguage'
 import { SITE, SECTION_IDS } from '../lib/constants'
 import SectionWrapper from '../components/common/SectionWrapper'
+import SectionHeading from '../components/common/SectionHeading'
 import ScrollReveal from '../components/common/ScrollReveal'
 
 function About() {
   const { t } = useLanguage()
 
   return (
-    <SectionWrapper id={SECTION_IDS.about}>
+    <SectionWrapper id={SECTION_IDS.about} bgTitle={t('about.title')}>
       <div className="grid md:grid-cols-2 gap-16 items-center">
         {/* Textová část */}
         <div className="space-y-8">
           <ScrollReveal cinematic>
-            <div className="space-y-2">
-              <p className="text-xs font-mono text-accent tracking-widest uppercase">
-                {t('about.subtitle')}
-              </p>
-              <h2 className="text-4xl font-bold text-text-primary">
-                {t('about.title')}
-              </h2>
-            </div>
+            <SectionHeading subtitle={t('about.subtitle')} title={t('about.title')} />
           </ScrollReveal>
 
           <ScrollReveal delay={100} cinematic>

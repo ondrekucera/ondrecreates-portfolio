@@ -2,9 +2,12 @@ import { useLanguage } from '../hooks/useLanguage'
 import { scrollToSection } from '../utils/helpers'
 import { SITE, SECTION_IDS } from '../lib/constants'
 
+// Rok se nemění za života aplikace → module level, ne uvnitř komponenty
+const CURRENT_YEAR = new Date().getFullYear()
+
 function Footer() {
   const { t } = useLanguage()
-  const year = new Date().getFullYear()
+  const year = CURRENT_YEAR
 
   return (
     <footer className="border-t border-border-subtle bg-bg-surface/50 px-4 sm:px-8 py-12">
