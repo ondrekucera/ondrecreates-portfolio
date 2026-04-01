@@ -8,11 +8,23 @@
 
     <title>ondrecreates – Ondřej Kučera</title>
 
+    <!--
+      Anti-FOUC script – aplikuje dark class před hydratací Reactu.
+      Bez tohoto scriptu by uživatel viděl záblesk světlého pozadí.
+      Default = dark (pokud není uložena jiná preference).
+    -->
+    <script>
+      (function () {
+        var t = localStorage.getItem('portfolio_theme')
+        if (!t || t === 'dark') document.documentElement.classList.add('dark')
+      })()
+    </script>
+
     <!-- Fonty z Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&family=Caveat:wght@600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&family=Caveat:wght@600;700&family=Dancing+Script:wght@700&display=swap"
       rel="stylesheet"
     />
   </head>

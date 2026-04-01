@@ -2,6 +2,7 @@ import { useLanguage } from '../hooks/useLanguage'
 import { SECTION_IDS } from '../lib/constants'
 import { skills } from '../data/skills'
 import SectionWrapper from '../components/common/SectionWrapper'
+import SectionHeading from '../components/common/SectionHeading'
 import ScrollReveal from '../components/common/ScrollReveal'
 import Badge from '../components/ui/Badge'
 
@@ -12,16 +13,13 @@ function Skills() {
   const { t } = useLanguage()
 
   return (
-    <SectionWrapper id={SECTION_IDS.skills} className="bg-bg-surface/30">
+    <SectionWrapper id={SECTION_IDS.skills} className="bg-bg-surface/30" bgTitle={t('skills.title')}>
       <ScrollReveal>
-        <div className="space-y-2 mb-16">
-          <p className="text-xs font-mono text-accent tracking-widest uppercase">
-            {t('skills.subtitle')}
-          </p>
-          <h2 className="text-4xl font-bold text-text-primary">
-            {t('skills.title')}
-          </h2>
-        </div>
+        <SectionHeading
+          subtitle={t('skills.subtitle')}
+          title={t('skills.title')}
+          className="mb-16"
+        />
       </ScrollReveal>
 
       <div className="grid md:grid-cols-3 gap-8">
