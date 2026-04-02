@@ -1,26 +1,30 @@
 import { useEffect, useRef } from 'react'
 import gsap from '../lib/gsap'
 
-// ─── Timing – uprav zde ───────────────────────────────────────────────────────
-const TYPING_DURATION = 1.0   // s – celková délka psaní textu
-const BLINK_PAUSE     = 0.35  // s – pauza s kurzorem po dopsání
-const FADE_DURATION   = 0.5   // s – fade out overlay
+// ─── Timing ───────────────────────────────────────────────────────────────────
+const TYPING_DURATION = 1.4   // s – délka psaní (100ms/znak = čitelné a premium)
+const BLINK_PAUSE     = 0.6   // s – pauza po dopsání (kurzor bliká, pak fade)
+const FADE_DURATION   = 0.65  // s – fade-out overlay
 // ─────────────────────────────────────────────────────────────────────────────
 
-// Text intra – uprav zde ('_' kurzor je renderován zvlášť via .intro-cursor)
-const INTRO_TEXT = 'ondrecreates'
+const INTRO_TEXT = 'ondrecreates.'
 
-function Preloader({ onDone }) {
+// Props:
+//   onReveal – voláno na ZAČÁTKU fade-outu (App přepne animate prop)
+//   onDone   – voláno po DOKONČENÍ fade-outu (App odpojí Preloader z DOM)
+function Preloader({ onReveal, onDone }) {
   const containerRef = useRef(null)
   const textRef      = useRef(null)
+  const cursorRef    = useRef(null)
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      // Proxy objekt pro GSAP – index float 0 → délka textu
       const proxy = { index: 0 }
 
       gsap.timeline()
-        // Typewriter: GSAP interpoluje index, onUpdate aktualizuje DOM
+        // ── Psaní textu ──────────────────────────────────────────────────
+        // Kurzor je během psaní solid (CSS nemá animaci) – viz index.css.
+        // Přidání třídy 'is-blinking' proběhne až po dopsání.
         .to(proxy, {
           index:    INTRO_TEXT.length,
           duration: TYPING_DURATION,
@@ -30,42 +34,39 @@ function Preloader({ onDone }) {
               textRef.current.textContent = INTRO_TEXT.slice(0, Math.round(proxy.index))
             }
           },
+          onComplete() {
+            // Po dopsání povolíme blikání kurzoru přes CSS třídu
+            cursorRef.current?.classList.add('is-blinking')
+          },
         })
-        // Krátká pauza s blikajícím kurzorem
+        // ── Pauza (kurzor bliká) ─────────────────────────────────────────
         .to({}, { duration: BLINK_PAUSE })
-        // Fade out celého overlay
+        // ── Fade-out overlaye ────────────────────────────────────────────
+        //   onStart    → App přepne animate prop (navbar + hero reveal)
+        //   onComplete → App odpojí Preloader z DOM
         .to(containerRef.current, {
-          opacity:         0,
-          duration:        FADE_DURATION,
-          ease:            'power2.inOut',
-          pointerEvents:   'none',
-          onComplete:      onDone,
+          opacity:       0,
+          duration:      FADE_DURATION,
+          ease:          'power2.inOut',
+          pointerEvents: 'none',
+          onStart:       onReveal,
+          onComplete:    onDone,
         })
     }, containerRef)
 
     return () => ctx.revert()
-  }, [onDone])
+  }, [onReveal, onDone])
 
   return (
     <div ref={containerRef} className="intro-screen">
 
-      {/* Ambientní glow – fialová záře za textem
-          Intenzita: uprav opacity třídy bg-accent/[...] níže               */}
-      <div
-        aria-hidden="true"
-        className="absolute inset-0 flex items-center justify-center pointer-events-none"
-      >
-        <div className="w-[700px] h-56 rounded-full bg-accent/[0.08] blur-[100px]" />
-        <div className="absolute w-96 h-40 rounded-full bg-accent-violet/[0.09] blur-[80px] translate-x-20 translate-y-6" />
-      </div>
-
-      {/* Intro text + kurzor
-          Styly: viz .intro-text a .intro-cursor v index.css                */}
-      <div className="relative z-10">
+      {/* Kontejner zrcadlí přesně <nav> v Navbaru: w-full px-6 sm:px-8 h-16
+          → brand je pixel-perfect na stejné pozici jako navbar brand          */}
+      <div className="w-full px-6 sm:px-8 h-16 flex items-center">
         <span className="intro-text">
           <span ref={textRef} />
-          {/* Kurzor bliká čistě přes CSS animaci – žádný JS interval       */}
-          <span className="intro-cursor">_</span>
+          {/* Kurzor: solid při psaní, bliká po dopsání (třída .is-blinking) */}
+          <span ref={cursorRef} className="intro-cursor">_</span>
         </span>
       </div>
 

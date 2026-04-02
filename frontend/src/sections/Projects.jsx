@@ -18,7 +18,7 @@ function Projects() {
   const rest      = projects.filter((p) => !p.featured)
 
   return (
-    <SectionWrapper id={SECTION_IDS.projects} bgTitle={t('projects.title')}>
+    <SectionWrapper id={SECTION_IDS.projects}>
 
       <ScrollReveal>
         <SectionHeading

@@ -8,7 +8,7 @@ function About() {
   const { t } = useLanguage()
 
   return (
-    <SectionWrapper id={SECTION_IDS.about} bgTitle={t('about.title')}>
+    <SectionWrapper id={SECTION_IDS.about}>
       <div className="grid md:grid-cols-2 gap-16 items-center">
         {/* Textová část */}
         <div className="space-y-8">

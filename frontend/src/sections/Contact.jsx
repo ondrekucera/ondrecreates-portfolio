@@ -40,7 +40,7 @@ function Contact() {
   }
 
   return (
-    <SectionWrapper id={SECTION_IDS.contact} className="bg-bg-surface/30" bgTitle={t('contact.title')}>
+    <SectionWrapper id={SECTION_IDS.contact} className="bg-bg-surface/30">
       <div className="max-w-2xl mx-auto">
 
         <ScrollReveal>

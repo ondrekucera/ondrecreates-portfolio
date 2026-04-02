@@ -1,5 +1,6 @@
 import { useRef, useEffect } from 'react'
 import gsap, { ScrollTrigger } from '../../lib/gsap'
+import { useLanguage } from '../../hooks/useLanguage'
 
 // ─── SectionDivider ───────────────────────────────────────────────────────────
 //
@@ -9,22 +10,27 @@ import gsap, { ScrollTrigger } from '../../lib/gsap'
 //   – volitelné pořadové číslo sekce
 //
 // Props:
-//   label   (string)   – název sekce, např. "About", "Projects"
-//   index   (number)   – volitelné pořadové číslo (zobrazí se jako "01", "02"...)
-//   flip    (boolean)  – zarovná obsah doprava (střídání pro vizuální rytmus)
+//   labelKey (string)  – i18n klíč, např. "about.title"; přeloží interně přes t()
+//                        Upřednostněno před `label`. Zajišťuje CZ/EN label.
+//   label    (string)  – fallback: přímý text (backward compat, bez překladu)
+//   index    (number)  – volitelné pořadové číslo (zobrazí se jako "01", "02"...)
+//   flip     (boolean) – zarovná obsah doprava (střídání pro vizuální rytmus)
 //
 // Animace (ScrollTrigger):
 //   – text: opacity + jemný posun X při vstupu do viewportu
 //   – linka: scaleX 0 → 1 (draw efekt)
 //   – number: opacity + posun Y
 //
-// Parallax (bonus):
+// Parallax:
 //   – dva-layer pattern: `textWrapRef` obdrží entrance animaci,
 //     `textRef` (inner span) obdrží parallax scrub → žádný konflikt
 //   – vypnuto na touch zařízeních
 // ─────────────────────────────────────────────────────────────────────────────
 
-function SectionDivider({ label, index, flip = false }) {
+function SectionDivider({ labelKey, label, index, flip = false }) {
+  const { t } = useLanguage()
+  // labelKey má přednost – zajišťuje přeložený text podle aktuálního jazyka
+  const displayLabel = labelKey ? t(labelKey) : label
   const wrapRef     = useRef(null)   // celý komponent – ScrollTrigger trigger
   const textWrapRef = useRef(null)   // vnější wrapper textu – entrance animace
   const textRef     = useRef(null)   // vnitřní span textu – parallax scrub
@@ -131,7 +137,7 @@ function SectionDivider({ label, index, flip = false }) {
             Jak upravit outline barvu: -webkit-text-stroke v index.css        */}
         <div ref={textWrapRef}>
           <span ref={textRef} className={`section-divider-label block ${alignClass.split(' ')[1]}`}>
-            {label}
+            {displayLabel}
           </span>
         </div>
 
