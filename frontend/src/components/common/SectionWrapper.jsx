@@ -1,38 +1,30 @@
 // ─── SectionWrapper ───────────────────────────────────────────────────────────
 //
-// Obal každé sekce – zajišťuje konzistentní padding, ID kotvu a max šířku.
+// Obal každé sekce – fullscreen blok s vertikálně centrovaným obsahem.
 //
 // Props:
-//   id        (string)  – HTML id pro scroll navigaci
-//   children  (node)    – obsah sekce
-//   className (string)  – extra Tailwind třídy (pozadí, border atd.)
-//   bgTitle   (string)  – velký dekorativní text za obsahem (přeložený)
-//                         Zobrazí se jako ghost/outlined text, very low opacity
-//                         Reaguje na dark/light mode (viz .section-bg-title v index.css)
+//   id        (string) – HTML id pro scroll navigaci
+//   children  (node)   – obsah sekce
+//   className (string) – extra Tailwind třídy (pozadí, border atd.)
 //
-// Spacing: uprav py-32 sm:py-44 pro změnu vertikálního rytmu celé stránky
+// Layout:
+//   min-h-screen:              každá sekce zabírá alespoň celý viewport
+//   flex flex-col justify-center: obsah vertikálně uprostřed viewportu
+//   py-20 sm:py-28:            min. dýchací prostor od horního / dolního okraje
+//
+// Jak upravit:
+//   Min. výška:         min-h-screen → min-h-[90vh] (menší blok)
+//   Vertikální prostor: py-20 sm:py-28 (větší = obsah výš/níž od kraje)
 // ─────────────────────────────────────────────────────────────────────────────
 
-function SectionWrapper({ id, children, className = '', bgTitle = '' }) {
+function SectionWrapper({ id, children, className = '' }) {
   return (
     <section
       id={id}
-      className={`relative py-32 sm:py-44 px-4 sm:px-8 overflow-hidden ${className}`}
+      className={`relative min-h-screen flex flex-col justify-center px-4 sm:px-8 py-20 sm:py-28 overflow-hidden ${className}`}
     >
-      {/* Dekorativní bg title – velký, ghost text, za obsahem sekce
-          Pozice: top-8 sm:top-10 (viditelný v horní části sekce)
-          Jak upravit: viz .section-bg-title v index.css                     */}
-      {bgTitle && (
-        <div
-          aria-hidden="true"
-          className="absolute inset-x-0 top-8 sm:top-10 pointer-events-none select-none overflow-hidden"
-        >
-          <span className="section-bg-title">{bgTitle}</span>
-        </div>
-      )}
-
-      {/* Obsah – relativní z-index zajišťuje vrstvení nad bg title           */}
-      <div className="max-w-6xl mx-auto relative z-10">
+      {/* Obsah – w-full zajišťuje správné zarovnání v flex kontextu */}
+      <div className="max-w-6xl mx-auto relative z-10 w-full">
         {children}
       </div>
     </section>

@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react'
+import { useState, useRef, useEffect, useLayoutEffect } from 'react'
+import gsap from '../lib/gsap'
 import { useLanguage } from '../hooks/useLanguage'
 import { useScrollSpy } from '../hooks/useScrollSpy'
 import { scrollToSection, cx } from '../utils/helpers'
@@ -14,11 +15,19 @@ const NAV_ITEMS = [
   { key: 'nav.contact',  id: SECTION_IDS.contact  },
 ]
 
-function Navbar() {
+// Props:
+//   animate (bool) – při false jsou center + right bloky skryty (opacity: 0)
+//                    a animují se až po dokončení preloaderu
+//                    Brand vlevo NIKDY neskrývat – musí být viditelný hned
+function Navbar({ animate = true }) {
   const { t } = useLanguage()
   const activeSection = useScrollSpy()
   const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
+
+  // Refs pro GSAP reveal center + right bloků
+  const centerRef = useRef(null)
+  const rightRef  = useRef(null)
 
   // Přidá pozadí navbaru po odscrollování
   useEffect(() => {
@@ -26,6 +35,32 @@ function Navbar() {
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
+
+  // ── Initial hide: skryj center + right před preloaderem (jen při 1. návštěvě)
+  // useLayoutEffect: synchronně před malováním → žádný záblesk viditelnosti
+  useLayoutEffect(() => {
+    if (animate) return          // revisit: neanimovat, vše zobrazit ihned
+    if (!centerRef.current || !rightRef.current) return
+    gsap.set([centerRef.current, rightRef.current], { opacity: 0, y: -5 })
+  }, [animate])
+
+  // ── Reveal animace: spustí se když animate přejde false → true
+  // Delay 0.45s: stránka má čas se rozfadovat, brand zůstane „kotvou"
+  useEffect(() => {
+    if (!animate) return
+    if (!centerRef.current || !rightRef.current) return
+    const ctx = gsap.context(() => {
+      gsap.to([centerRef.current, rightRef.current], {
+        opacity:  1,
+        y:        0,
+        duration: 0.5,
+        stagger:  0.1,
+        ease:     'power2.out',
+        delay:    0.45,
+      })
+    })
+    return () => ctx.revert()
+  }, [animate])
 
   const handleNavClick = (id) => {
     scrollToSection(id)
@@ -41,10 +76,17 @@ function Navbar() {
           : 'bg-transparent'
       )}
     >
-      {/* ── Desktop navbar – 3-column layout ─────────────────────────────── */}
-      <nav className="max-w-6xl mx-auto px-4 sm:px-8 h-16 grid grid-cols-3 items-center">
+      {/* ── Desktop navbar ──────────────────────────────────────────────────
+          w-full: nav pokrývá celou šířku viewportu → brand vlevo u kraje,
+          toggles vpravo u kraje (stejný padding jako Preloader inner div)
+          px-6 sm:px-8: brand/toggles = 24/32px od okraje – čisté a premium
+          grid-cols-[1fr_auto_1fr]: center = auto width, outer = rovnoměrný zbytek
+          POZOR: tyto třídy MUSÍ být shodné s Preloader vnitřním kontejnerem
+                 aby byl brand pixel-perfect zarovnaný                       */}
+      <nav className="w-full px-6 sm:px-8 h-16 grid grid-cols-[1fr_auto_1fr] items-center">
 
-        {/* LEFT – brand + blikající kurzor */}
+        {/* LEFT – brand + kurzor (NIKDY neskrývat – slouží jako „kotva"
+            při preloader → navbar brand přechodu)                         */}
         <div className="flex items-center">
           <button
             onClick={() => handleNavClick(SECTION_IDS.hero)}
@@ -59,8 +101,9 @@ function Navbar() {
         </div>
 
         {/* CENTER – hlavní navigace (pouze desktop)
-            Jak upravit spacing mezi položkami: uprav gap-8                  */}
-        <div className="hidden md:flex items-center justify-center gap-8">
+            ref: GSAP reveal po preloaderu
+            Jak upravit spacing: uprav gap-8                               */}
+        <div ref={centerRef} className="hidden md:flex items-center justify-center gap-8">
           {NAV_ITEMS.map(({ key, id }) => (
             <button
               key={id}
@@ -73,7 +116,7 @@ function Navbar() {
               )}
             >
               {t(key)}
-              {/* Aktivní sekce – tečka nebo linka pod textem                */}
+              {/* Aktivní sekce – linka pod textem */}
               {activeSection === id && (
                 <span
                   className="absolute -bottom-0.5 left-0 right-0 h-px bg-gradient-primary rounded-full"
@@ -84,9 +127,9 @@ function Navbar() {
           ))}
         </div>
 
-        {/* RIGHT – jazykový + theme přepínač (pouze desktop)
-            Na mobilu jsou přepínače v mobilním menu níže                    */}
-        <div className="flex items-center justify-end gap-2">
+        {/* RIGHT – jazykový + theme přepínač + hamburger
+            ref: GSAP reveal po preloaderu (spolu s center, se staggerem)  */}
+        <div ref={rightRef} className="flex items-center justify-end gap-2">
           {/* Přepínače viditelné pouze na desktopu */}
           <div className="hidden md:flex items-center gap-2">
             <LanguageToggle />
@@ -110,7 +153,7 @@ function Navbar() {
       {/* ── Mobilní menu ─────────────────────────────────────────────────── */}
       {menuOpen && (
         <div className="md:hidden bg-bg-surface/96 backdrop-blur-lg border-b border-border-subtle">
-          <div className="max-w-6xl mx-auto px-4 py-5 space-y-1">
+          <div className="px-6 sm:px-8 py-5 space-y-1">
 
             {/* Nav položky */}
             {NAV_ITEMS.map(({ key, id }) => (
@@ -128,13 +171,9 @@ function Navbar() {
               </button>
             ))}
 
-            {/* Oddělovač */}
+            {/* Oddělovač + přepínače */}
             <div className="border-t border-border-subtle my-3 pt-3">
-              {/* Přepínače v jednom řádku */}
               <div className="flex items-center gap-3 px-2">
-                <span className="text-xs font-mono text-text-muted">
-                  {/* Popis pro screen readery */}
-                </span>
                 <LanguageToggle onAfterToggle={() => setMenuOpen(false)} />
                 <ThemeToggle />
               </div>

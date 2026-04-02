@@ -13,7 +13,7 @@ function Skills() {
   const { t } = useLanguage()
 
   return (
-    <SectionWrapper id={SECTION_IDS.skills} className="bg-bg-surface/30" bgTitle={t('skills.title')}>
+    <SectionWrapper id={SECTION_IDS.skills} className="bg-bg-surface/30">
       <ScrollReveal>
         <SectionHeading
           subtitle={t('skills.subtitle')}
